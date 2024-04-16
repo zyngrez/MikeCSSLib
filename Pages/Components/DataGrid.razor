@@ -1,0 +1,10 @@
+﻿@using System.Data;
+@foreach(DataRow dr in dt.Rows)
+{
+    <DataGridRow dr="@dr"></DataGridRow>
+}
+
+@code {
+    [Parameter] public DataTable dt { get; set; }
+
+}

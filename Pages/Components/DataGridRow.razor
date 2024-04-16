@@ -1,0 +1,8 @@
+﻿@using System.Data;
+@foreach (object o in dr.ItemArray)
+{
+    <DataGridCell CellData="@o"></DataGridCell>
+}
+@code {
+    [Parameter] public DataRow dr { get; set; }
+}

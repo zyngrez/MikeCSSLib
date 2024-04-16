@@ -1,0 +1,100 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    
+
+}
+<script>
+    function ShowDialog(dlgName) {
+        
+        //document.getElementById(dlgName).className += ' dlgShow';
+        document.getElementById(dlgName).classList.add('dlgShow');
+        document.getElementById(dlgName).classList.remove('dlgHide');
+    }
+    function DoShow(dlgName,Id) {
+
+       
+        document.getElementById("RecordId").innerText = Id;
+         ShowDialog(dlgName);
+        
+    }
+    function HideDialog(dlgName) {
+        
+        document.getElementById(dlgName).classList.remove('dlgShow');
+        document.getElementById(dlgName).classList.add('dlgHide');
+
+    }
+</script>
+<button onclick="ShowDialog('dlgPopup')">Dialog</button>
+<div id="dlgPopupSave" class="dlgHide">
+    <div class="dlgFrame"></div>
+    <div class="dlgContent">
+        Hi <div id="RecordId" ></div>
+        <div class="dlgFooter">
+            <button onclick="HideDialog(this.parentElement.parentElement.parentElement.id)">Ok</button>
+            <button onclick="HideDialog(this.parentElement.parentElement.parentElement.id)">Cancel</button>
+        </div>
+    </div>
+    
+</div>
+<div id="dlgPopupDel" class="dlgHide">
+    <div class="dlgFrame"></div>
+    <div class="dlgContent">
+        Hi <div id="RecordId"></div>
+        <div class="dlgFooter">
+            <button onclick="HideDialog(this.parentElement.parentElement.parentElement.id)">Close</button>
+            </div>
+    </div>
+    
+</div>
+
+
+CollapsableTable ClassFormat TRTD buttons in td 'CollapseFooter' class
+<table class="CollapsableTable ClassFormat">
+    <tr>
+    @for (int c = 0; c < ((System.Data.DataTable?)ViewData["Data"]).Columns.Count; c++)
+    {
+        <th>@(((System.Data.DataTable?)ViewData["Data"]).Columns[c].ColumnName)</th>
+    }
+    <th></th>
+    </tr>
+    @for (int r = 0; r < ((System.Data.DataTable?)ViewData["Data"]).Rows.Count; r++)
+    {
+        System.Data.DataRow dr = ((System.Data.DataTable?)ViewData["Data"]).Rows[r];
+        <tr>
+        @for (int c = 0; c < dr.ItemArray.Length; c++)
+        {
+            <td ><label class="CollapseSpan">@(((System.Data.DataTable?)ViewData["Data"]).Columns[c].ColumnName)</label>@(dr.ItemArray[c] ?? "".ToString())</td>
+        }
+            <td class="CollapseFooter" >
+                    <button onclick="DoShow('dlgPopupSave',@(dr.ItemArray[0] ?? "".ToString()))">Save</button>
+                    <button onclick="DoShow('dlgPopupDel',@(dr.ItemArray[0] ?? "".ToString()))">Del</button>
+            </td>
+        </tr>
+    }
+</table>
+CollapseTable div heiarchy, buttons in CollapeFooter per row
+<div class="CollapseTable5 CollapseTable">
+
+ @for(int c = 0;c<((System.Data.DataTable?)ViewData["Data"]).Columns.Count;c++)
+    {
+        <div class="@("CollapseHeader Colc" + c    )">@(((System.Data.DataTable?)ViewData["Data"]).Columns[c].ColumnName)</div>
+    }
+    <div class="@("CollapseHeader Colc" + (System.Data.DataTable?)ViewData["Data"]).Columns.Count    )"></div>
+    @for(int r = 0;r<((System.Data.DataTable?)ViewData["Data"]).Rows.Count;r++)
+{
+        System.Data.DataRow dr = ((System.Data.DataTable?)ViewData["Data"]).Rows[r];
+        
+        @for (int c = 0; c < dr.ItemArray.Length ; c++)
+        {
+            <div class="@("CollapseCell Colc" + c + " Rowr" + r    )"><label class="CollapseSpan">@(((System.Data.DataTable?)ViewData["Data"]).Columns[c].ColumnName)</label>@(dr.ItemArray[c] ?? "".ToString())</div>
+        }
+        <div class="@("CollapseFooter Colc" + dr.ItemArray.Length   )">
+            
+            <button>Save</button>
+            <button>Del</button>
+        </div>
+    
+}
+
